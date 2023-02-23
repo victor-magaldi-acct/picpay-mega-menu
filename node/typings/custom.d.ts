@@ -20,7 +20,8 @@ export interface Settings {
 }
 
 interface Args {
-  menuInput: Menu
+  menuInput: Menu,
+  idStore: string
 }
 interface ArgsUpload {
   menuData: [Menu]

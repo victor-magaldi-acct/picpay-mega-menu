@@ -87,7 +87,7 @@ const filterDataDevice = (key: string, menuItems: Menu[]) => {
 
 export const menus = async (
   _: unknown,
-  { isMobile }: { isMobile: boolean },
+  { isMobile , idStore}: { isMobile: boolean , idStore:string},
   ctx: Context
 ) => {
   const {
@@ -97,13 +97,13 @@ export const menus = async (
   let menuItems: Menu[] = []
 
   try {
-    menuItems = await vbase.getJSON<Menu[]>('menu', 'menuItems')
+    menuItems = await vbase.getJSON<Menu[]>(`${idStore}-menu`, 'menuItems')
   } catch (err) {
     const errStr = err.toString()
 
     // If there are no menus, it is initialized empty
     if (errStr === 'Error: Request failed with status code 404') {
-      await vbase.saveJSON('menu', 'menuItems', [])
+      await vbase.saveJSON(`${idStore}-menu`, 'menuItems', [])
     } else {
       throw err
     }
@@ -122,10 +122,10 @@ export const menus = async (
 
 export const menu = async (
   _: unknown,
-  { id }: { id: string },
+  { id , idStore}: { id: string, idStore:string },
   ctx: Context
 ) => {
-  const menusId = await ctx.clients.vbase.getJSON<Menu[]>('menu', 'menuItems')
+  const menusId = await ctx.clients.vbase.getJSON<Menu[]>(`${idStore}-menu`, 'menuItems')
   const response = menusId.filter((menuId: Menu) => menuId.id === id)
 
   return response[0]
@@ -133,7 +133,7 @@ export const menu = async (
 
 export const createMenu = async (
   _: unknown,
-  { menuInput }: Args,
+  { menuInput,idStore }: Args,
   { clients: { vbase } }: Context
 ) => {
   let menuItems: Menu[] = []
@@ -141,7 +141,7 @@ export const createMenu = async (
   // eslint-disable-next-line vtex/prefer-early-return
   if (menuInput.id) {
     try {
-      menuItems = await vbase.getJSON<Menu[]>('menu', 'menuItems')
+      menuItems = await vbase.getJSON<Menu[]>(`${idStore}-menu`, 'menuItems')
     } catch (err) {
       const errStr = err.toString()
 
@@ -153,7 +153,7 @@ export const createMenu = async (
     menuInput.order = menuItems.length + 1
 
     return vbase
-      .saveJSON('menu', 'menuItems', [...menuItems, menuInput])
+      .saveJSON(`${idStore}-menu`, 'menuItems', [...menuItems, menuInput])
       .then(() => menuInput)
   }
 
@@ -165,36 +165,36 @@ export const uploadMenu = async (
   { menuData }: ArgsUpload,
   { clients: { vbase } }: Context
 ) => {
-  const menuItems = await vbase.getJSON<Menu[]>('menu', 'menuItems')
+  const menuItems = await vbase.getJSON<Menu[]>(`menu`, 'menuItems')
 
   if (menuItems.length > 0) {
     menuItems.forEach((item) => menuData.push(item))
   }
 
-  return vbase.saveJSON('menu', 'menuItems', menuData).then(() => menuData)
+  return vbase.saveJSON(`menu`, 'menuItems', menuData).then(() => menuData)
 }
 
 export const editMenu = async (
   _: unknown,
-  { menuInput }: Args,
+  { menuInput, idStore }: Args,
   { clients: { vbase } }: Context
 ) => {
-  const menuEdit = await vbase.getJSON<Menu[]>('menu', 'menuItems')
+  const menuEdit = await vbase.getJSON<Menu[]>(`${idStore}-menu`, 'menuItems')
 
   const newArray = orderArray([
     ...menuEdit.filter((menuItem: Menu) => menuItem.id !== menuInput.id),
     menuInput,
   ])
 
-  return vbase.saveJSON('menu', 'menuItems', newArray).then(() => newArray)
+  return vbase.saveJSON(`${idStore}-menu`, 'menuItems', newArray).then(() => newArray)
 }
 
 export const deleteMenu = async (
   _: unknown,
-  { id, idSecond, idThird }: { id: string; idSecond: string; idThird: string },
+  { id, idSecond, idThird, idStore }: { id: string; idSecond: string; idThird: string ,idStore:string},
   { clients: { vbase } }: Context
 ) => {
-  const menuDelete = await vbase.getJSON<Menu[]>('menu', 'menuItems')
+  const menuDelete = await vbase.getJSON<Menu[]>(`${idStore}-menu`, 'menuItems')
   let deleteArray: Menu[] = []
 
   if (!id && !idSecond && !idThird) {
@@ -279,6 +279,7 @@ export const deleteMenu = async (
           if (subItemDelete.id === idSecond) {
             subItemDelete.menu = tempSecondArray[0].menu
           }
+
         })
       }
     })
@@ -287,7 +288,7 @@ export const deleteMenu = async (
   }
 
   return vbase
-    .saveJSON('menu', 'menuItems', deleteArray)
+    .saveJSON(`${idStore}-menu`, 'menuItems', deleteArray)
     .then(() => deleteArray)
 }
 

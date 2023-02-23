@@ -1,14 +1,14 @@
 type Query {
-  menus(isMobile: Boolean): [Menu]
-  menu(id: ID!): Menu
+  menus(isMobile: Boolean idStore:String!): [Menu]
+  menu(id: ID! idStore:String!): Menu
   settings: [Settings]
   setting(id: ID!): Settings
 }
 
 type Mutation {
-  editMenu(menuInput: MenuInput!): [Menu]
-  deleteMenu(id: String, idSecond: String, idThird: String): [Menu]
-  createMenu(menuInput: MenuInput!): Menu
-  uploadMenu(menuData: [MenuInput]): [Menu]
+  editMenu(menuInput: MenuInput! idStore:String!): [Menu]
+  deleteMenu(id: String, idSecond: String, idThird: String ,idStore:String!): [Menu]
+  createMenu(menuInput: MenuInput! idStore:String!): Menu
+  uploadMenu(menuData: [MenuInput] idStore:String!): [Menu]
   createEditSettings(settingsInput: SettingsInput!): Settings
 }
