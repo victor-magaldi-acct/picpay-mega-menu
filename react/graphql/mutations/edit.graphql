@@ -1,5 +1,5 @@
-mutation edit($editMenu: MenuInput!) {
-  editMenu(menuInput: $editMenu) {
+mutation edit($editMenu: MenuInput! , $idStore:String!) {
+  editMenu(menuInput: $editMenu idStore:$idStore) {
     id
     name
     icon

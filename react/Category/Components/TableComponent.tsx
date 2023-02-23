@@ -195,6 +195,7 @@ const TableComponent: FC<TableComponentProps> = (props) => {
         id: id || props.idLevels?.idFirstlvl,
         idSecond: idSecond || props.idLevels?.idSecondlvl,
         idThird,
+        idStore:"seara"
       },
     })
   }

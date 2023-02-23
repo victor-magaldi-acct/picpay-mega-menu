@@ -1,5 +1,5 @@
-query getMenus($isMobile: Boolean) {
-  menus(isMobile: $isMobile) {
+query getMenus($isMobile: Boolean $idStore:String!) {
+  menus(isMobile: $isMobile idStore:$idStore) {
     id
     name
     icon

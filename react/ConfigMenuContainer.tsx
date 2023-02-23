@@ -45,6 +45,7 @@ const ConfigMenuContainer: FC<InjectedIntlProps> = ({ intl }) => {
   const [currentTab, setCurrentTab] = useState(1)
   const { loading, data } = useQuery(GET_MENUS, {
     fetchPolicy: 'no-cache',
+    variables:{idStore:"seara"}
   })
 
   const typeArraData: DataMenu[] = []
@@ -109,6 +110,7 @@ const ConfigMenuContainer: FC<InjectedIntlProps> = ({ intl }) => {
 
   return (
     <div>
+      <h1>MEGA MENU PICPAY</h1>
       {!!alert && (
         <Alert type={typeModal} onClose={() => setAlert(false)}>
           {message}

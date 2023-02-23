@@ -398,6 +398,7 @@ const FormComponent: FC<FormComponentProps & InjectedIntlProps> = (props) => {
     if (responseForm.level === 'firstLevel') {
       createNewMenu({
         variables: {
+          idStore:"seara",
           menuInput: {
             id: name + randomId(),
             name,

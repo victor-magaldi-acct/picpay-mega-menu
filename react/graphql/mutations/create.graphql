@@ -1,5 +1,5 @@
-mutation create($menuInput: MenuInput!) {
-  createMenu(menuInput: $menuInput) {
+mutation create($menuInput: MenuInput!, $idStore:String!) {
+  createMenu(menuInput: $menuInput idStore:$idStore) {
     id
     name
     icon

@@ -1,5 +1,5 @@
-query getMenu($id: ID!) {
-  menu(id: $id) {
+query getMenu($id: ID! $idStore:String!) {
+  menu(id: $id idStore:$idStore) {
     id
     name
     icon

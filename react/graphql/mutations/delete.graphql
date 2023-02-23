@@ -1,5 +1,5 @@
-mutation delete($id: String, $idSecond: String, $idThird: String) {
-  deleteMenu(id: $id, idSecond: $idSecond, idThird: $idThird) {
+mutation delete($id: String, $idSecond: String, $idThird: String, $idStore:String!) {
+  deleteMenu(id: $id, idSecond: $idSecond, idThird: $idThird idStore:$idStore) {
     id
     name
     icon
